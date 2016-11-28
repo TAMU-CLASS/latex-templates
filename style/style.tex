@@ -1,0 +1,434 @@
+% !TeX spellcheck = en_US
+\documentclass[10pt,letterpaper,oneside]{article}
+
+\input{../common/packages}
+\input{../common/definitions}
+\input{../common/settings}
+
+% example for hyperref setup, these are the fields that need to be updated
+\hypersetup{
+  pdftitle={Test file for Latex definitions},    % title
+  pdfauthor={Hans Hammer},     % author
+  pdfsubject={Documentation},   % subject of the document
+  pdfcreator={Hans Hammer},   % creator of the document
+  pdfproducer={Hans Hammer}, % producer of the document
+  pdfkeywords={Documentation}, % list of keywords
+}
+
+% define title and all authors here
+\title{Documentation test document}
+\author[1]{Hans Hammer}
+\author[1]{Tarek Ghaddar}
+
+\affil[1]{Texas A\&M University - Department of Nuclear Engineering}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}
+This documents shows the usage of the general style definitions for documentation. Most command are defined using the math mode. Even some are directly usable in free text, they still switch to math mode. This changes the font and style. Keep that in mind.
+If the math mode must be enabled manually, this is shown in the examples.
+
+\subsection{References}
+Use the cref package for references. It will detect automatically the type of reference and add the according description:
+
+\begin{figure}[H]
+  \caption{Empty Figure with label \texttt{fig:label\_1}}
+  \label{fig:label_1}
+\end{figure}
+
+\begin{table}[H]
+  \caption{Empty Table with label \texttt{tab:label\_2}}
+  \label{tab:label_2}
+\end{table}
+
+\begin{equation} \label{eq:label_3}
+  1 + 1 = 2
+\end{equation}
+
+Reference with \lstinline|\cref{fig:label_1}| for \cref{fig:label_1} and with  \lstinline|\cref{tab:label_2}| for \cref{tab:label_2}. For the beginning of a sentence use \lstinline|\Cref{fig:label_1}| for \Cref{fig:label_1} and \lstinline|\Cref{tab:label_2}| for \Cref{tab:label_2}. Reference texts can be adjusted, see package documentation for details.
+Same for equations \lstinline|\cref{eq:label_3}| for \cref{eq:label_3} and \lstinline|\Cref{eq:label_3}| for \Cref{eq:label_3} for begining of the sentence.
+Fancy is also \lstinline|\cref{fig:label_1, tab:label_2, eq:label_3}| for \cref{fig:label_1,tab:label_2,eq:label_3}.
+The prefix before the colon is not needed and just added for human readablility. These are shwon in \cref{tab:label_prefixes}. A label shoud be as descriptive as possible.
+\begin{table}
+  \caption{Prefixes for reference labels}
+  \begin{tabular}{l|c}
+    Type & prefix \\ \hline
+    Equation & eq: \\
+    Table & tab: \\
+    Figure & fig: \\
+    Algorithm & alg: \\
+    Listing & lst: \\
+  \end{tabular}
+  \label{tab:label_prefixes}
+\end{table}
+
+\subsection{Indices}
+Where do group, angle, iteration and spatial indices go? Which symbols shall we use?
+
+
+\subsection{Listings}
+Look into source code to see how it is done. You can also load code from files directly, even just some  lines from the file. See documentation.
+\url{https://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings}. I am still working on the styles, this are just examples at the moment
+\begin{lstlisting}[style=python,caption={Python example},label={lst:python}]
+import numpy as np
+
+def incmatrix(genl1,genl2):
+    m = len(genl1)
+    n = len(genl2)
+    M = None #to become the incidence matrix
+    VT = np.zeros((n*m,1), int)  #dummy variable
+
+    #compute the bitwise xor matrix
+    M1 = bitxormatrix(genl1)
+    M2 = np.triu(bitxormatrix(genl2),1)
+
+    for i in range(m-1):
+        for j in range(i+1, m):
+            [r,c] = np.where(M2 == M1[i,j])
+            for k in range(len(r)):
+                VT[(i)*n + r[k]] = 1;
+                VT[(i)*n + c[k]] = 1;
+                VT[(j)*n + r[k]] = 1;
+                VT[(j)*n + c[k]] = 1;
+
+                if M is None:
+                    M = np.copy(VT)
+                else:
+                    M = np.concatenate((M, VT), 1)
+
+                VT = np.zeros((n*m,1), int)
+
+    return M
+\end{lstlisting}
+
+\begin{lstlisting}[style=cpp,caption={C++ example},label={lst:moose}]
+#include <stdio.h>
+#define N 10
+/* Block
+ * comment */
+
+int main()
+{
+    int i;
+
+    // Line comment.
+    puts("Hello world!");
+
+    for (i = 0; i < N; i++)
+    {
+        puts("LaTeX is also great for programmers!");
+    }
+
+    return 0;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=moose,caption={Moose input example},label={lst:moose}]
+[Mesh]
+  type = GeneratedBIDMesh
+  dim = 1
+  xmin = 0
+  xmax = 2
+  nx = 2
+  subdomain = '0 1'
+[]
+
+[TransportSystems]
+  particle = common
+  equation_type = steady-state
+  G = 1
+  VacuumBoundary = 'left right'
+  SurfaceSource = '10.0 0'
+
+  [./diffusion]
+    scheme = CFEM-Diffusion
+    order = FIRST
+    family = LAGRANGE
+    nonlocal_diffusion_multiapp_file = 'absorber_larsen_trahan_ls.i'
+    save_nonlocal_diffusion_coefficient = true
+
+    transport_wrapper = 'ls_transport'
+  [../]
+[]
+
+[Materials]
+  [./strong]
+    type = ConstantNeutronicsMaterial
+    block = '1'
+    sigma_t = 10.0
+    sigma_s = 5.0
+  [../]
+  [./weak]
+    type = ConstantNeutronicsMaterial
+    block = '0'
+    sigma_t = 0.1
+    sigma_s = 0.05
+  [../]
+[]
+}
+\end{lstlisting}
+
+\subsection{Useful links}
+\subsubsection{Spaces in \LaTeX}
+\begin{table}[H]
+  \caption{Spacing from \url{http://tex.stackexchange.com/questions/74353/what-commands-are-there-for-horizontal-spacing}}
+  \label{tab:spacing}
+  \noindent\begin{supertabular}{lp{5cm}}
+    \verb|a\,b| & a\,b \\
+    \verb|$a\,b$| & $a\,b$ \\
+    \verb|a\thinspace b| & a\thinspace b \\
+    \verb|$a\thinspace b$| & $a\thinspace b$ \\
+    \verb|$a\!b$| & $a\!b$ \\
+    \verb|$a\mkern-\thinmuskip b$| & $a\mkern-\thinmuskip b$ \\
+    \verb|$a\>b$| & $a\>b$ \\
+    \verb|$a\mkern\medmuskip b$| & $a\mkern\medmuskip b$ \\
+    \verb|$a\;b$| & $a\;b$ \\
+    \verb|$a\mkern\thickmuskip b$| & $a\mkern\thickmuskip b$ \\
+    \verb|$a\:b$| & $a\:b$ \\
+    \verb|$a\mkern\medmuskip b$| & $a\mkern\medmuskip b$ \\
+    \verb|a\enspace b| & a\enspace b \\
+    \verb|$a\enspace b$| & $a\enspace b$ \\
+    \verb|a\quad b| & a\quad b \\
+    \verb|$a\quad b$| & $a\quad b$ \\
+    \verb|a\qquad b| & a\qquad b \\
+    \verb|$a\qquad b$| & $a\qquad b$ \\
+    \verb|a\hskip 1em b| & a\hskip 1em b \\
+    \verb|$a\hskip 1em b$| & $a\hskip 1em b$ \\
+    \verb|a\kern 1pc b| & a\kern 1pc b \\
+    \verb|$a\kern 1pc b$| & $a\kern 1pc b$ \\
+    \verb|a\hspace{35pt}b| & a\hspace{35pt}b \\
+    \verb|$a\hspace{35pt}b$| & $a\hspace{35pt}b$ \\
+    \verb|axyzb| & axyzb \\
+    \verb|a\hphantom{xyz}b| & a\hphantom{xyz}b \\
+    \verb|$axyzb$| & $axyzb$ \\
+    \verb|$a\hphantom{xyz}b$| & $a\hphantom{xyz}b$ \\
+    \verb|a\ b| & a\ b \\
+    \verb|$a\ b$| & $a\ b$ \\
+    \verb|a~b| & a~b \\
+    \verb|$a~b$| & $a~b$ \\
+    \verb|a\hfill b| & a\hfill b \\
+    \verb|$a\hfill b$| & $a\hfill b$ \\
+  \end{supertabular}
+\end{table}
+
+\subsection{AMSMath package}
+Read the documentation on the ams math environments \url{ftp://ftp.ams.org/pub/tex/doc/amsmath/amsldoc.pdf}
+
+\subsection{Plotting}
+\LaTeX supports plots from csv files. The learning curve is a bit steep, however the results are worth it. Take a look at the pgfplots package \url{ftp://ftp.ams.org/pub/tex/doc/amsmath/amsldoc.pdf}. I might add a 2\,D template for plots later.
+
+% give us some more space
+\renewcommand{\arraystretch}{2}
+
+\section{General commands}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+\end{supertabular}
+
+\section{Math}
+\subsection{Parenthesis \& Co}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Parenthesis  & $\parenthesis{x\cdot x}$  &  \lstinline|$\parenthesis{x\cdot x}$|\\
+  Bracket  & $\bracket{x\cdot x}$  &  \lstinline|$\bracket{x\cdot x}$|\\
+  Bracet & $\bracet{x\cdot x}$  &  \lstinline|$\bracet{x\cdot x}$|\\
+  Angled &  $\angled{x\cdot x}$  &  \lstinline|$\angled{x\cdot x}$|\\
+\end{supertabular}
+
+\subsection{Math symbols}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Imaginary number &  \img  &  \lstinline|\img|\\
+  Gradient &  $\del$  &  \lstinline|$\grad$| or \lstinline|$\del$|\\
+  Adjoint &  $\adj{\psi}$  &  \lstinline|$\adj{\psi}$|\\
+  Order &  $e\order{2}$  &  \lstinline|$e\order{2}$|\\
+\end{supertabular}
+
+\subsection{Functions}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Divergence &  $\div\psi$  &  \lstinline|$\div\psi$|\\
+  Rotation &  $\rot\psi$  &  \lstinline|$\rot\psi$|\\
+  Vector Norm &  $\norm{\vec{x}}$  &  \lstinline|$\norm{\vec{x}}$| \\
+   & $\norm[\infty]{\vec{x}}$  &  \lstinline|$\norm[\infty]{\vec{x}}$|\\
+  Absolute value &  $\abs{x}$  &  \lstinline|$\abs{x}$|\\
+  e-Function &  $\e{x}$  &  \lstinline|$\e{x}$|\\
+  Power of ten &  \tento{3}  &  \lstinline|\tento{3}|\\
+  Scientific noation &  8.3\E{-4}  &  \lstinline|8.3\E{-4}|\\
+  Sign function &  $\sign$  &  \lstinline|$\sign$|\\
+\end{supertabular}
+
+\subsection{Matrices etc}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Vector &  $\vec{A}$  &  \lstinline|$\vec{A}$|\\
+  Matrix &  $\mat{A}$  &  \lstinline|$\mat{A}$|\\
+  Tensor &  $\tensor{T}$  &  \lstinline|$\tensor{T}$|\\
+  Function Operator &  $\op{L}$  &  \lstinline|$\op{L}$|\\
+\end{supertabular}
+
+\subsection{Derivatives}
+\subsubsection{First Derivatives}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  General derivative &  $\dd{s}$  &  \lstinline|$\dd{s}$| \\
+   & $\dd[f]{s}$  &  \lstinline|$\dd[f]{s}$|\\
+  x derivative &  $\ddx$  &  \lstinline|$\ddx$| \\
+   & $\ddx[f]$  &  \lstinline|$\ddx[f]$|\\
+  y derivative &  $\ddy$  &  \lstinline|$\ddy$| \\
+   & $\ddy[f]$  &  \lstinline|$\ddy[f]$|\\
+  z derivative &  $\ddz$  &  \lstinline|$\ddz$| \\
+   & $\ddz[f]$  &  \lstinline|$\ddz[f]$|\\
+  t derivative &  $\ddt$  &  \lstinline|$\ddt$| \\
+   & $\ddt[f]$  &  \lstinline|$\ddt[f]$|\\
+\end{supertabular}
+
+\subsection{Second Derivatives}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  General derivative &  $\ddd{s}$  &  \lstinline|$\ddd{s}$| \\
+   & $\ddd[f]{s}$  &  \lstinline|$\ddd[f]{s}$|\\
+  x derivative &  $\ddxx$  &  \lstinline|$\ddxx$| \\
+   & $\ddxx[f]$  &  \lstinline|$\ddxx[f]$|\\
+  y derivative &  $\ddyy$  &  \lstinline|$\ddyy$| \\
+   & $\ddyy[f]$  &  \lstinline|$\ddyy[f]$|\\
+  z derivative &  $\ddzz$  &  \lstinline|$\ddzz$| \\
+   & $\ddzz[f]$  &  \lstinline|$\ddzz[f]$|\\
+  t derivative &  $\ddtt$  &  \lstinline|$\ddtt$| \\
+   & $\ddtt[f]$  &  \lstinline|$\ddtt[f]$|\\
+\end{supertabular}
+
+\subsection{Integral}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  x Integrate &  $\dx$  &  \lstinline|$\dx$| \\
+   & $\dx[s]$  &  \lstinline|$\dx[s]$|\\
+  y Integrate &  $\dy$  &  \lstinline|$\dy$|\\
+  z Integrate &  $\dz$  &  \lstinline|$\dz$|\\
+  t Integrate &  $\dt$  &  \lstinline|$\dt$|\\
+\end{supertabular}
+
+\subsubsection{Sperhical Integral}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Sphere & \sphere & \lstinline|\sphere| \\
+  Agnular weight & $\aqweight$ & \lstinline|$\aqweight$| \\
+  Sphere integral & $\intsp$ & \lstinline|$\intsp$| \\
+  Half sphere integral & $\inthalfsp$ & \lstinline|$\inthalfsp$| \\
+  Polar integral & $\intpolar$ & \lstinline|$\intpolar$| \\
+  Negative partial polar integral & $\intnpolar$ & \lstinline|$\intnpolar$| \\
+  Positive partial polar integral & $\intppolar$ & \lstinline|$\intppolar$| \\
+\end{supertabular}
+
+\subsection{Fractions}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Halfs &  $\half$  &  \lstinline|$\half$| \\
+   & $\half[3]$  &  \lstinline|$\half[3]$|\\
+  Thirds &  $\third$  &  \lstinline|$\third$| \\
+   & $\third[2]$  &  \lstinline|$\third[2]$|\\
+  Fourth &  $\fourth$  &  \lstinline|$\fourth$| \\
+   & $\fourth[3]$  &  \lstinline|$\fourth[3]$|\\
+\end{supertabular}
+
+\section{Symbols}
+\subsection{FEM}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Domain &  \domain  &  \lstinline|\domain|\\
+  Boundary &  \boundary  &  \lstinline|\boundary|\\
+  Vacuum Boundary &  \vboundary  &  \lstinline|\rboundary|\\
+  Reflective Boundary &  \rboundary  &  \lstinline|\vboundary|\\
+  Interface Boundary &  \interface  &  \lstinline|\interface|\\
+  Testfunction &  \testfct  &  \lstinline|\testfct|\\
+  Angular Testfunction &  \atestfct  &  \lstinline|\atestfct|\\
+  Suface Normal &  \normal  &  \lstinline|\normal|\\
+  Boundary Normal &  \bnormal  &  \lstinline|\bnormal|\\
+\end{supertabular}
+
+\subsubsection{DFEM}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Jump & $\jump{a}$ & \lstinline|$\jump{a}$| \\
+  Jump 2 & $\jmpa{a}$ & \lstinline|$\jmpa{a}$| \\ better name here
+  Mean value & $\meanval{a}$ & \lstinline|$\meanval{a}$| \\
+\end{supertabular}
+
+\subsection{Physics}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Mass flow &  \mdot  &  \lstinline|\mdot| \\
+\end{supertabular}
+
+\subsection{Nuclear Symbols}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  \sn &  \sn  &  \lstinline|\sn| \\
+  & \sn[8]  &  \lstinline|\sn[8]|\\
+  \pn & \pn  &  \lstinline|\pn| \\
+  & \pn[8]  &  \lstinline|\pn[8]|\\
+  Mulitplication factor & \keff  & \lstinline|\keff|\\
+  Infintie multiplication factor & \kinf & \lstinline|\kinf|\\
+\end{supertabular}
+
+\subsection{Transport}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Streaming direction &  \direction  &  \lstinline|\direction|\\
+  Spatial postion &  \position  &  \lstinline|\position|\\
+  Current &  \current  &  \lstinline|\current| \\
+   & \current[g]  &  \lstinline|\current[g]|\\
+  Positive partial current &  \ppcurrent  &  \lstinline|\ppcurrent| \\
+   & \ppcurrent[g]  &  \lstinline|\ppcurrent[g]|\\
+  Negative partial current &  \npcurrent  &  \lstinline|\npcurrent| \\
+   & \npcurrent[g]  &  \lstinline|\npcurrent[g]|\\
+  Drift vector &  \drift  &  \lstinline|\drift| \\
+   & \drift[g]  &  \lstinline|\drift[g]|\\
+  Diffusion coefficient &  \DC  &  \lstinline|\DC| \\
+   & \DC[g]  &  \lstinline|\DC[g]|\\
+  Nonlocal diffusion tensor &  \DCNL  &  \lstinline|\DCNL| \\
+   & \DCNL[g]  &  \lstinline|\DCNL[g]|\\
+  Total cross section &  \sigt  &  \lstinline|\sigt| \\
+   & \sigt[g]  &  \lstinline|\sigt[g]|\\
+  Scattering cross section &  \sigs  &  \lstinline|\sigs| \\
+   & \sigs[g]  &  \lstinline|\sigs[g]|\\
+  Fission cross section &  \sigf  &  \lstinline|\sigf| \\
+   & \sigf[g]  &  \lstinline|\sigf[g]|\\
+  Removal cross section &  \sigr  &  \lstinline|\sigr| \\
+   & \sigr[g]  &  \lstinline|\sigr[g]|\\
+  Absorption cross section &  \siga  &  \lstinline|\siga| \\
+   & \siga[g]  &  \lstinline|\siga[g]|\\
+  Transport cross section &  \sigtr  &  \lstinline|\sigtr| \\
+   & \sigtr[g]  &  \lstinline|\sigtr[g]|\\
+  Scattering moments cross section &  \sigl{l}  &  \lstinline|\sigl{l}| \\
+   & \sigl[g]{l}  &  \lstinline|\sigl[g]{l}|\\
+  Total cross section &  \Sigt  &  \lstinline|\Sigt| \\
+   & \Sigt[g]  &  \lstinline|\Sigt[g]|\\
+  Scattering cross section &  \Sigs  &  \lstinline|\Sigs| \\
+   & \Sigs[g]  &  \lstinline|\Sigs[g]|\\
+  Fission cross section &  \Sigf  &  \lstinline|\Sigf| \\
+   & \Sigf[g]  &  \lstinline|\Sigf[g]|\\
+  Removal cross section &  \Sigr  &  \lstinline|\Sigr| \\
+   & \Sigr[g]  &  \lstinline|\Sigr[g]|\\
+  Absorption cross section &  \Siga  &  \lstinline|\Siga| \\
+   & \Siga[g]  &  \lstinline|\Siga[g]|\\
+  Transport cross section &  \Sigtr  &  \lstinline|\Sigtr| \\
+   & \Sigtr[g]  &  \lstinline|\Sigtr[g]|\\
+  Scattering moments cross section &  \Sigl{l}  &  \lstinline|\Sigl{l}| \\
+   & \Sigl[g]{l}  &  \lstinline|\Sigl[g]{l}|\\
+  Spatial weight function &  \weight  &  \lstinline|\weight| \\
+   & \weight[g]  &  \lstinline|\weight[g]| \\
+\end{supertabular}
+
+\section{Units}
+\begin{supertabular}{p{0.4\textwidth}|p{0.3\textwidth}|p{0.3\textwidth}}
+  Name & Symbol & Command \\ \hline
+  Scalar flux & 1\sfluxunit  &  \lstinline|1\sfluxunit|\\
+  Anglular flux & 2\afluxunit  &  \lstinline|2\afluxunit|\\
+  Diffusion coefficient & 3\dcunit  &  \lstinline|3\dcunit| \\
+\end{supertabular}
+
+\end{document}

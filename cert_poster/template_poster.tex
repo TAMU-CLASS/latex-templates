@@ -1,0 +1,116 @@
+\documentclass[xcolor={usenames,dvipsnames,svgnames,table}]{beamer}
+
+%Load the myriad packages
+\usepackage[orientation=landscape,size=a0,scale=1.4]{beamerposter}
+
+% load macros and prevent authblk from loading
+\input{../common/macros.tex}
+\dontusepackage{authblk}
+
+% load packages, settings and definitions
+\input{../common/packages.tex}
+\input{../common/settings.tex}
+\input{../common/definitions.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mode<presentation>{\usetheme{TAMU}}
+
+\title[<short>]{<Title>}
+\author[<short>]{<authors>}
+\institute{Department of Nuclear Engineering, Texas A\&M University, College Station, TX, USA 77843}
+
+\newlength{\columnheight}
+\setlength{\columnheight}{70cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{frame}
+	\begin{columns}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{column}{.33\textwidth}
+		\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+			\begin{minipage}[T]{0.95\textwidth} % tweaks the width, makes a new \textwidth
+			\parbox[t][\columnheight]{\textwidth}{ % must be some better way to set the the height, width and textwidth simultaneously
+			    % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
+
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{Motivation}
+			    \end{block}
+			    \vfill
+
+
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{Another Block}
+			    \end{block}
+			    \vfill
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{A Block with a picture!}
+			    \end{block}
+			    \vfill
+
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{Good luck!}
+			    \end{block}
+			    \vfill
+			}
+			\end{minipage}
+		\end{beamercolorbox}
+	\end{column}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{column}{.33\textwidth}
+		\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+			\begin{minipage}[T]{0.95\textwidth} % tweaks the width, makes a new \textwidth
+			\parbox[t][\columnheight]{\textwidth}{ % must be some better way to set the the height, width and textwidth simultaneously
+			         % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
+
+
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{Credit}
+			    \end{block}
+			    \vfill
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{Block}
+		    	\vfill
+			    \end{block}
+			    \vfill
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			}
+			\end{minipage}
+		\end{beamercolorbox}
+	\end{column}
+
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\begin{column}{.33\textwidth}
+		\begin{beamercolorbox}[center,wd=\textwidth]{postercolumn}
+			\begin{minipage}[T]{0.95\textwidth} % tweaks the width, makes a new \textwidth
+			\parbox[t][\columnheight]{\textwidth}{ % must be some better way to set the the height, width and textwidth simultaneously
+			         % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
+
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{These things go on forever.}
+			    \end{block}
+			    \vfill
+			    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			    \begin{block}{Conclusion, Future Work, Please Let Me Graduate, etc.}
+			    \end{block}
+			    \vfill
+			}
+			\end{minipage}
+		\end{beamercolorbox}
+	\end{column}
+
+	\end{columns}
+\end{frame}
+\end{document}
+
