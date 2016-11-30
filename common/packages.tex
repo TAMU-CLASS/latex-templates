@@ -30,6 +30,7 @@
 \usepackage{chngpage}		% page layout change during document - https://www.ctan.org/pkg/chngpage
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}			% color definitions - https://www.ctan.org/pkg/xcolor
 \usepackage{enumitem}   % layout for itemize and enumerate - http://www.ctan.org/pkg/enumitem
+\usepackage{setspace}    % allows for \singlespacing, \onehalfspacing, and \doublespacing commands - https://www.ctan.org/pkg/setspace
 
 % floating packages
 % needed by the breakalgo environment labelsep=quad
@@ -44,11 +45,13 @@
 \usepackage{array}			% Extending the array and tabular environments - https://www.ctan.org/pkg/array
 \usepackage{multirow}		% tabular cells spanning multiple rows - https://www.ctan.org/pkg/multirow
 % \usepackage{tabls}      % Better vertical spacing in tables and arrays - https://www.ctan.org/pkg/tabls
+\usepackage{colortbl}      % Allows for color manipulation within tables - https://www.ctan.org/pkg/colortbl
 
 % pictures, plots and listings
 \usepackage{graphicx}		% include graphics - https://www.ctan.org/pkg/graphicx
 \usepackage{wrapfig}		% wrapfigure enviroment - https://www.ctan.org/pkg/wrapfig
 \usepackage{pgfplots}		% latex plots - https://www.ctan.org/pkg/pgfplots
+
 
 % source code and algorithms
 \usepackage{algorithmicx} % newer version of algorithmic - https://www.ctan.org/pkg/algorithmicx
@@ -62,10 +65,12 @@
 \usepackage{lscape}     % Place selected parts of a document in landscape - https://www.ctan.org/pkg/lscape
 \usepackage{rotating}   % Rotation tools, including rotated full-page floats - https://www.ctan.org/pkg/rotating
 \usepackage{chngcntr}   % Change the resetting of counters - http://ctan.org/pkg/chngcntr
+\usepackage{textpos}    % Allows logo and banner manipulation
 
 % eps support
-\usepackage{epsfig}     % include eps figures - https://www.ctan.org/pkg/epsfig
-\usepackage{epsf}       % Simple macros for EPS inclusion - https://www.ctan.org/pkg/epsf
+\usepackage{epsfig}       % include eps figures - https://www.ctan.org/pkg/epsfig
+\usepackage{epsf}          % Simple macros for EPS inclusion - https://www.ctan.org/pkg/epsf
+\usepackage{epstopdf}   %use .eps images (as pdf) in \includegraphics
 
 
 % reference packages
